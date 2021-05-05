@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const whiteList = ['https://jehison98.github.io/jehisongb/', 'http://localhost:5500/'];
+const whiteList = ['https://jehison98.github.io/jehisongb/'];
 
 const corsOptions = {
     origin: function (origin, callback) {
