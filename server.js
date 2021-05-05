@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 5000;
 //Middlewares
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    console.log("Hola");
+});
+
 app.post('/', (req, res) => {
     const transporter = nodeMailer.createTransport({
         host: "smtp.gmail.email",
