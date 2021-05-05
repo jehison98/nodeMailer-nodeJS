@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+
 const app = express();
 
 const nodeMailer = require('nodemailer');
@@ -6,10 +8,11 @@ const nodeMailer = require('nodemailer');
 const PORT = process.env.PORT || 5000;
 
 //Middlewares
+app.use(express.static('dist'));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send("I'm working.....");
+    res.sendFile(path.join(__dirname, '/dist', '/index.html'));
 });
 
 app.post('/', (req, res) => {
