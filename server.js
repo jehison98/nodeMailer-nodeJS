@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -7,7 +8,21 @@ const nodeMailer = require('nodemailer');
 const PORT = process.env.PORT || 5000;
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
+
+const whiteList = ['https://jehison98.github.io/jehisongb/', 'http://localhost:5500/'];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if(whiteList.indexOf(origin) != -1){
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not Allowed by CORS'))
+        }
+    }
+}
 
 app.get('/', (req, res) => {
     res.send("I'm working");
