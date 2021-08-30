@@ -8,14 +8,16 @@ const nodeMailer = require('nodemailer');
 const PORT = process.env.PORT || 5000;
 
 //Middlewares
+app.use(express.static('dist'));
 app.use(cors());
 app.use(express.json());
 
-const whiteList = ['https://jehison98.github.io/jehisongb/'];
+const url = 'https://jehison98.github.io/JehisonGB-Portafolio/';
+const whiteList = [url];
 
 const corsOptions = {
     origin: function (origin, callback) {
-        if(whiteList.indexOf(origin) != -1){
+        if (whiteList.indexOf(origin) != -1) {
             callback(null, true);
         }
         else {
@@ -24,10 +26,9 @@ const corsOptions = {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send("I'm working");
-});
 
+const email = 'jehisondeveloper@gmail.com'
+const emailPass = 'rixqzheafqynmjbl';
 app.post('/', (req, res) => {
     const transporter = nodeMailer.createTransport({
         host: "smtp.gmail.email",
@@ -35,8 +36,8 @@ app.post('/', (req, res) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-            user: 'jehison3098@gmail.com', // generated ethereal user
-            pass: 'ukyvysqtsrgvzafh', // generated ethereal password
+            user: email, // generated ethereal user
+            pass: emailPass, // generated ethereal password
         },
     });
 
@@ -45,21 +46,26 @@ app.post('/', (req, res) => {
         to: "jehison3098@gmail.com",
         subject: `Message from ${req.body.name}`,
         html: `
-        <p>${req.body.name}</p> <br> 
-        <p>${req.body.email}</p> <br> 
-        <p>${req.body.phone}</p> <br> 
-        <p>${req.body.message}</p> <br> 
+        <p>
+            Name: ${req.body.name} <br>
+            Email: ${req.body.email} <br>
+            Phone: ${req.body.phone}
+        </p> 
+        <p>
+            Message: ${req.body.message}
+        </p>
+            
         `,
     }
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
             console.log(err);
-            res.status(500).send('error');
+            res.status(500).send('Server Error');
         }
         else {
             console.log('Email sent: ' + info.response);
-            res.status(200).send("Message sent");
+            res.status(200).send(true);
         }
     });
 
